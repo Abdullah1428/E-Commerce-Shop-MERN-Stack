@@ -26,7 +26,7 @@ const UserEditScreen = ({ match, history }) => {
   const {
     loading: loadingUpdate,
     error: errorUpdate,
-    sucess: successUpdate
+    success: successUpdate
   } = userUpdate
 
   useEffect(() => {

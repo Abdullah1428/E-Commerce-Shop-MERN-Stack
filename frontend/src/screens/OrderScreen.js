@@ -15,20 +15,9 @@ const OrderScreen = ({ match }) => {
   const orderDetails = useSelector(state => state.orderDetails)
   const { loading, error, order } = orderDetails
 
-  if (!loading) {
-    const addDecimals = num => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-
-    // calc prices
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    )
-  }
-
   useEffect(() => {
     dispatch(getOrderDetails(orderId))
-  }, [dispatch])
+  }, [dispatch, orderId])
 
   return loading ? (
     <Loader />

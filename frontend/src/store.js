@@ -39,17 +39,13 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   : null
 
 const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
-  ? JSON.parse(localStorage.getItem('shippingAddres'))
-  : {}
-
-const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
-  ? JSON.parse(localStorage.getItem('shippingAddres'))
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
   : {}
 
 const initialState = {
   cart: {
     cartItems: cartItemsFromStorage,
-    shippingAddres: shippingAddressFromStorage
+    shippingAddress: shippingAddressFromStorage
   },
   userLogin: { userInfo: userInfoFromStorage }
 }

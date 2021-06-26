@@ -11,7 +11,7 @@ import productRoutes from './routes/productRoutes.js'
 // route for user and auth
 import userRoutes from './routes/userRoutes.js'
 // route for orders
-import orderRoutes from './routes/orderRoutes'
+import orderRoutes from './routes/orderRoutes.js'
 
 dotenv.config()
 // connect to DB

@@ -44,6 +44,7 @@ const ProfileScreen = ({ location, history }) => {
       } else {
         setName(user.name)
         setEmail(user.email)
+        dispatch(listMyOrders())
       }
     }
   }, [dispatch, history, userInfo, user])

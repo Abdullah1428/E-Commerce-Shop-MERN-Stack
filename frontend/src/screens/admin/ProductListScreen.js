@@ -6,7 +6,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
-import { listProducts } from '../../redux/actions/productActions'
+import { listProducts, deleteProduct } from '../../redux/actions/productActions'
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch()
@@ -17,21 +17,28 @@ const ProductListScreen = ({ history, match }) => {
   const userLogin = useSelector(state => state.userLogin)
   const { userInfo } = userLogin
 
+  const productDelete = useSelector(state => state.productDelete)
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete
+  } = productDelete
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts())
     } else {
       history.push('/login')
     }
-  }, [dispatch, history, userInfo])
+  }, [dispatch, history, userInfo, successDelete])
 
   const createProductHandler = product => {
     console.log('handler')
   }
 
   const deleteHandler = id => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      //  delete product
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      dispatch(deleteProduct(id))
     }
   }
 
@@ -41,13 +48,15 @@ const ProductListScreen = ({ history, match }) => {
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className='text-right'>
+        <Col className='text-end'>
           <Button className='my-3' onClick={createProductHandler}>
             <i className='fas fa-plus'></i>
-            {'Create Product'}
+            {' Create Product'}
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -78,15 +87,14 @@ const ProductListScreen = ({ history, match }) => {
                       <i className='fas fa-edit'></i>
                     </Button>
                   </LinkContainer>
-                  {userInfo._id !== user._id && (
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(product._id)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  )}
+
+                  <Button
+                    variant='danger'
+                    className='btn-sm'
+                    onClick={() => deleteHandler(product._id)}
+                  >
+                    <i className='fas fa-trash'></i>
+                  </Button>
                 </td>
               </tr>
             ))}

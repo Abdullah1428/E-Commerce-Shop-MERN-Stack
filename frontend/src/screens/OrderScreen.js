@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
-import { Button, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 
-import { getOrderDetails } from '../redux/actions/orderActions'
+import { getOrderDetails, payOrder } from '../redux/actions/orderActions'
+import { ORDER_PAY_RESET } from '../redux/constants/orderConstants'
 
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id
@@ -15,9 +16,19 @@ const OrderScreen = ({ match }) => {
   const orderDetails = useSelector(state => state.orderDetails)
   const { loading, error, order } = orderDetails
 
+  const orderPay = useSelector(state => state.orderPay)
+  const { loading: loadingPay, success: successPay } = orderPay
+
   useEffect(() => {
-    dispatch(getOrderDetails(orderId))
-  }, [dispatch, orderId])
+    if (!order || successPay) {
+      dispatch({ type: ORDER_PAY_RESET })
+      dispatch(getOrderDetails(orderId))
+    }
+  }, [dispatch, orderId, successPay, order])
+
+  const successPaymentHandler = () => {
+    dispatch(payOrder(orderId))
+  }
 
   return loading ? (
     <Loader />
@@ -130,6 +141,19 @@ const OrderScreen = ({ match }) => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  <Button
+                    type='submit'
+                    variant='primary'
+                    onClick={successPaymentHandler}
+                  >
+                    Pay Order Amount
+                  </Button>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

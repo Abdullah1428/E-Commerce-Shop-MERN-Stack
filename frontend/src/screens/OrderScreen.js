@@ -42,7 +42,7 @@ const OrderScreen = ({ match, history }) => {
       dispatch({ type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(orderId))
     }
-  }, [dispatch, orderId, successPay, order, successDeliver])
+  }, [dispatch, orderId, successPay, order, successDeliver, userInfo, history])
 
   const successPaymentHandler = () => {
     dispatch(payOrder(orderId))
@@ -80,7 +80,7 @@ const OrderScreen = ({ match, history }) => {
               </p>
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.isDelivered}
+                  Delivered on {order.deliveredAt}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>

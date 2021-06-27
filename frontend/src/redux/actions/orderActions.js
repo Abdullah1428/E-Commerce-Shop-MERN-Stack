@@ -15,7 +15,10 @@ import {
   ORDER_LIST_MYORDERS_FAIL,
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
-  ORDER_LIST_FAIL
+  ORDER_LIST_FAIL,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL
 } from '../constants/orderConstants'
 
 export const createOrder = order => async (dispatch, getState) => {
@@ -85,10 +88,7 @@ export const getOrderDetails = id => async (dispatch, getState) => {
   }
 }
 
-export const payOrder = (id, paymentResult = { status: 'paid' }) => async (
-  dispatch,
-  getState
-) => {
+export const payOrder = id => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_PAY_REQUEST
@@ -100,16 +100,11 @@ export const payOrder = (id, paymentResult = { status: 'paid' }) => async (
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`
       }
     }
 
-    const { data } = await axios.put(
-      `/api/orders/${id}/pay`,
-      paymentResult,
-      config
-    )
+    const { data } = await axios.put(`/api/orders/${id}/pay`, {}, config)
 
     dispatch({
       type: ORDER_PAY_SUCCESS,
@@ -118,6 +113,39 @@ export const payOrder = (id, paymentResult = { status: 'paid' }) => async (
   } catch (error) {
     dispatch({
       type: ORDER_PAY_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const deliverOrder = id => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DELIVER_REQUEST
+    })
+
+    const {
+      userLogin: { userInfo }
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    }
+
+    const { data } = await axios.put(`/api/orders/${id}/deliver`, {}, config)
+
+    dispatch({
+      type: ORDER_DELIVER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELIVER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

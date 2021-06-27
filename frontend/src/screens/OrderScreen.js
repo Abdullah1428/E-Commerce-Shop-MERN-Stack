@@ -164,34 +164,35 @@ const OrderScreen = ({ match, history }) => {
                 </Row>
               </ListGroup.Item>
 
-              {!order.isPaid && (
+              {userInfo && userInfo.isAdmin && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   <Button
+                    disabled={order.isPaid}
                     type='button'
                     className='btn btn-block'
                     onClick={successPaymentHandler}
                   >
-                    Pay Order Amount
+                    {order.isPaid ? 'Already Paid' : 'Pay Order Amount'}
                   </Button>
                 </ListGroup.Item>
               )}
 
-              {userInfo &&
-                userInfo.isAdmin &&
-                order.isPaid &&
-                !order.isDelivered && (
-                  <ListGroup.Item>
-                    {loadingDeliver && <Loader />}
-                    <Button
-                      type='button'
-                      className='btn btn-block'
-                      onClick={deliverHandler}
-                    >
-                      Mark As Delivered
-                    </Button>
-                  </ListGroup.Item>
-                )}
+              {userInfo && userInfo.isAdmin && (
+                <ListGroup.Item>
+                  {loadingDeliver && <Loader />}
+                  <Button
+                    disabled={!order.isPaid || order.isDelivered}
+                    type='button'
+                    className='btn btn-block'
+                    onClick={deliverHandler}
+                  >
+                    {order.isDelivered
+                      ? 'Already Delivered'
+                      : 'Mark As Delivered'}
+                  </Button>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

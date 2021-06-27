@@ -95,7 +95,7 @@ jane@example.com (Customer)
 
 # AUTHOR
 
-- Github: [@abdullah1428](https://github.com/Abdullah148)
+- Github: [@abdullah1428](https://github.com/Abdullah1428)
 - Linkedln: [@abdullahcse](https://www.linkedin.com/in/abdullahcse)
 
 # Show your support

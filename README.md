@@ -17,7 +17,6 @@ E-commerce Web app built with MERN STACK.
 - Admin Order details page
 - Mark orders as delivered option
 - Checkout process (shipping, payment method, etc)
-- PayPal / credit card integration
 - Database seeder (products & users)
 
 ## Usage

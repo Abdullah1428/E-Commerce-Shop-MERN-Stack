@@ -32,9 +32,11 @@ const ProductScreen = ({ history, match }) => {
   } = productReviewCreate
 
   useEffect(() => {
+    /*
     if (!userInfo) {
       history.push('/login')
     }
+    */
 
     if (successProductReview) {
       alert('Review Submitted!')
@@ -67,7 +69,11 @@ const ProductScreen = ({ history, match }) => {
         <>
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image
+                src={`http://127.0.0.1:5000${product.image}`}
+                alt={product.name}
+                fluid
+              />
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>
@@ -199,7 +205,7 @@ const ProductScreen = ({ history, match }) => {
                     </Form>
                   ) : (
                     <Message>
-                      Please <Link to='/login'>sign in</Link>to write a review
+                      Please <Link to='/login'>sign in</Link> to write a review
                     </Message>
                   )}
                 </ListGroup.Item>

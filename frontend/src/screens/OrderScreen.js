@@ -111,7 +111,7 @@ const OrderScreen = ({ match, history }) => {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={item.image}
+                            src={`http://127.0.0.1:5000${item.image}`}
                             alt={item.name}
                             fluid
                             rounded

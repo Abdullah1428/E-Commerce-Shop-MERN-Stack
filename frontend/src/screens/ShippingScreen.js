@@ -12,10 +12,24 @@ const ShippingScreen = ({ history }) => {
   const cart = useSelector(state => state.cart)
   const { shippingAddress } = cart
 
-  const [address, setAddress] = useState(shippingAddress.address)
-  const [city, setCity] = useState(shippingAddress.city)
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
-  const [country, setCountry] = useState(shippingAddress.country)
+  const [address, setAddress] = useState(
+    typeof shippingAddress.address === 'undefined'
+      ? ''
+      : shippingAddress.address
+  )
+  const [city, setCity] = useState(
+    typeof shippingAddress.city === 'undefined' ? '' : shippingAddress.city
+  )
+  const [postalCode, setPostalCode] = useState(
+    typeof shippingAddress.postalCode === 'undefined'
+      ? ''
+      : shippingAddress.postalCode
+  )
+  const [country, setCountry] = useState(
+    typeof shippingAddress.country === 'undefined'
+      ? ''
+      : shippingAddress.country
+  )
 
   const submitHandler = e => {
     e.preventDefault()

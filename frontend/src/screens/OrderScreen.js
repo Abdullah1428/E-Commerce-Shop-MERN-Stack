@@ -44,6 +44,10 @@ const OrderScreen = ({ match, history }) => {
     }
   }, [dispatch, orderId, successPay, order, successDeliver, userInfo, history])
 
+  useEffect(() => {
+    dispatch(getOrderDetails(orderId))
+  }, [dispatch, orderId])
+
   const successPaymentHandler = () => {
     dispatch(payOrder(orderId))
   }

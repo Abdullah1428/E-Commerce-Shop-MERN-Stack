@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 
 import { createOrder } from '../redux/actions/orderActions'
+import { updateProductStock } from '../redux/actions/productActions'
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch()
@@ -39,6 +40,16 @@ const PlaceOrderScreen = ({ history }) => {
   }, [history, success])
 
   const placeOrderHandler = () => {
+    cart.cartItems.map(item => {
+      item.countInStock = item.countInStock - item.qty
+      dispatch(
+        updateProductStock({
+          _id: item.product,
+          countInStock: item.countInStock
+        })
+      )
+    })
+
     dispatch(
       createOrder({
         orderItems: cart.cartItems,

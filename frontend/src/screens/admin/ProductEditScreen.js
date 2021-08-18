@@ -45,7 +45,7 @@ const ProductEditScreen = ({ match, history }) => {
       if (!product.name || product._id !== productId) {
         dispatch(listProductDetails(productId))
       } else {
-        dispatch(listProductDetails(productId))
+        //dispatch(listProductDetails(productId))
         setName(product.name)
         setPrice(product.price)
         setImage(product.image)
@@ -142,7 +142,7 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control>
               <Form.File
                 id='image-file'
-                lable='Choose file'
+                label='Choose file'
                 custom
                 onChange={uploadFileHandler}
               ></Form.File>
